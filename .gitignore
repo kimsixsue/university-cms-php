@@ -1,0 +1,25 @@
+# Environment
+.env
+.env.local
+
+# Dependencies
+/vendor/
+/node_modules/
+
+# Logs
+*.log
+logs/
+
+# Upload files
+/uploads/*
+!/uploads/.gitkeep
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# PHP
+*.cache
+.phpunit.result.cache
