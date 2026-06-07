@@ -40,6 +40,7 @@ PHP·MySQL 기반 대학 부속홈페이지 통합관리 CMS 프로젝트입니�
 
 * [요구사항정의서](docs/requirements.md)
 * [DB 설계 초안](docs/erd.md)
+* [화면목록](docs/screens.md)
 
 ## 개발 진행 계획
 
