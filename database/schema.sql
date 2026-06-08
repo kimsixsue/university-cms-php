@@ -37,3 +37,25 @@ VALUES
     ('content_admin', '콘텐츠관리자')
 ON DUPLICATE KEY UPDATE
     description = VALUES(description);
+
+INSERT INTO admins (username, password_hash, name, email, status)
+VALUES (
+    'admin',
+    '$2y$10$D7qxiOUOWZjiGgESEkkU.uZ7d0oXxM9WmfS4lbTGcE3ZT.flYqn9K',
+    '기본 관리자',
+    'admin@example.com',
+    'active'
+)
+ON DUPLICATE KEY UPDATE
+    password_hash = VALUES(password_hash),
+    name = VALUES(name),
+    email = VALUES(email),
+    status = VALUES(status);
+
+INSERT INTO admin_roles (admin_id, role_id)
+SELECT a.id, r.id
+FROM admins a
+JOIN roles r ON r.name = 'super_admin'
+WHERE a.username = 'admin'
+ON DUPLICATE KEY UPDATE
+    role_id = VALUES(role_id);
