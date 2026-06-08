@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 session_start();
 
+require_once __DIR__ . '/../app/Models/Admin.php';
+
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?? '/';
+$method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
 if ($path === '/') {
     echo '<h1>University CMS PHP</h1>';
@@ -15,8 +18,62 @@ if ($path === '/') {
     exit;
 }
 
-if ($path === '/admin/login') {
+if ($path === '/admin/login' && $method === 'GET') {
+    $error = $_SESSION['login_error'] ?? null;
+    $oldUsername = $_SESSION['old_username'] ?? '';
+
+    unset($_SESSION['login_error'], $_SESSION['old_username']);
+
     require __DIR__ . '/../app/Views/admin/auth/login.php';
+    exit;
+}
+
+if ($path === '/admin/login' && $method === 'POST') {
+    $username = trim($_POST['username'] ?? '');
+    $password = $_POST['password'] ?? '';
+
+    if ($username === '' || $password === '') {
+        $_SESSION['login_error'] = '아이디와 비밀번호를 입력해주세요.';
+        $_SESSION['old_username'] = $username;
+
+        header('Location: /admin/login');
+        exit;
+    }
+
+    $admin = Admin::findByUsername($username);
+
+    if (
+        $admin === null
+        || $admin['status'] !== 'active'
+        || !password_verify($password, $admin['password_hash'])
+    ) {
+        $_SESSION['login_error'] = '아이디 또는 비밀번호가 올바르지 않습니다.';
+        $_SESSION['old_username'] = $username;
+
+        header('Location: /admin/login');
+        exit;
+    }
+
+    $roles = Admin::findRoleNamesByAdminId((int) $admin['id']);
+
+    session_regenerate_id(true);
+
+    $_SESSION['admin_id'] = (int) $admin['id'];
+    $_SESSION['admin_username'] = $admin['username'];
+    $_SESSION['admin_name'] = $admin['name'];
+    $_SESSION['admin_roles'] = $roles;
+
+    header('Location: /admin/dashboard');
+    exit;
+}
+
+if ($path === '/admin/dashboard') {
+    if (!isset($_SESSION['admin_id'])) {
+        header('Location: /admin/login');
+        exit;
+    }
+
+    require __DIR__ . '/../app/Views/admin/dashboard/index.php';
     exit;
 }
 

@@ -9,6 +9,12 @@
 
     <p>대학 부속홈페이지 통합관리 CMS 관리자 로그인 화면입니다.</p>
 
+    <?php if (!empty($error)): ?>
+        <p style="color: red;">
+            <?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?>
+        </p>
+    <?php endif; ?>
+
     <form action="/admin/login" method="post">
         <div>
             <label for="username">아이디</label><br>
@@ -16,6 +22,7 @@
                 type="text"
                 id="username"
                 name="username"
+                value="<?= htmlspecialchars($oldUsername ?? '', ENT_QUOTES, 'UTF-8') ?>"
                 required
                 autocomplete="username"
             >
