@@ -92,7 +92,7 @@ if ($path === '/admin/logout') {
 }
 
 if ($path === '/admin/dashboard') {
-    requireAdminLogin();
+    requireAdminRole('super_admin');
 
     require __DIR__ . '/../app/Views/admin/dashboard/index.php';
     exit;
