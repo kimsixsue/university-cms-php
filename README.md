@@ -52,7 +52,7 @@ PHP·MySQL 기반 대학 부속홈페이지 통합관리 CMS 프로젝트입니�
 
 ## 기술 스택
 
-* PHP 8.x
+* PHP 8.3
 * MySQL 8.4
 * PDO
 * HTML/CSS
