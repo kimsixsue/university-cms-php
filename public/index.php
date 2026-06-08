@@ -16,8 +16,7 @@ if ($path === '/') {
 }
 
 if ($path === '/admin/login') {
-    echo '<h1>관리자 로그인</h1>';
-    echo '<p>관리자 로그인 화면 구현 예정입니다.</p>';
+    require __DIR__ . '/../app/Views/admin/auth/login.php';
     exit;
 }
 
