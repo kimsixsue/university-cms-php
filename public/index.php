@@ -5,6 +5,7 @@ declare(strict_types=1);
 session_start();
 
 require_once __DIR__ . '/../app/Models/Admin.php';
+require_once __DIR__ . '/../app/Core/Auth.php';
 
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?? '/';
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
@@ -91,10 +92,7 @@ if ($path === '/admin/logout') {
 }
 
 if ($path === '/admin/dashboard') {
-    if (!isset($_SESSION['admin_id'])) {
-        header('Location: /admin/login');
-        exit;
-    }
+    requireAdminLogin();
 
     require __DIR__ . '/../app/Views/admin/dashboard/index.php';
     exit;
