@@ -30,6 +30,19 @@ CREATE TABLE IF NOT EXISTS admin_roles (
         ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS admin_logs (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    admin_id BIGINT UNSIGNED NULL,
+    action VARCHAR(50) NOT NULL,
+    target_type VARCHAR(50) NULL,
+    target_id BIGINT UNSIGNED NULL,
+    ip_address VARCHAR(45) NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_admin_logs_admin
+        FOREIGN KEY (admin_id) REFERENCES admins(id)
+        ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 INSERT INTO roles (name, description)
 VALUES
     ('super_admin', '최고관리자'),
