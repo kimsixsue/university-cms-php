@@ -5,10 +5,16 @@ declare(strict_types=1);
 session_start();
 
 require_once __DIR__ . '/../app/Models/Admin.php';
+require_once __DIR__ . '/../app/Models/AdminLog.php';
 require_once __DIR__ . '/../app/Core/Auth.php';
 
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?? '/';
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+
+function clientIpAddress(): ?string
+{
+    return $_SERVER['REMOTE_ADDR'] ?? null;
+}
 
 if ($path === '/') {
     echo '<h1>University CMS PHP</h1>';
@@ -63,6 +69,14 @@ if ($path === '/admin/login' && $method === 'POST') {
     $_SESSION['admin_username'] = $admin['username'];
     $_SESSION['admin_name'] = $admin['name'];
     $_SESSION['admin_roles'] = $roles;
+
+    AdminLog::create(
+        (int) $admin['id'],
+        'login',
+        'admin',
+        (int) $admin['id'],
+        clientIpAddress()
+    );
 
     header('Location: /admin/dashboard');
     exit;
