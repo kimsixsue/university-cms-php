@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+require_once __DIR__ . '/../Models/AdminLog.php';
+
 function isAdminLoggedIn(): bool
 {
     return isset($_SESSION['admin_id']);
@@ -49,6 +51,16 @@ function requireAdminRole(string $role): void
     if (hasAdminRole($role)) {
         return;
     }
+
+    $admin = currentAdmin();
+
+    AdminLog::create(
+        $admin !== null ? (int) $admin['id'] : null,
+        'role_denied',
+        'admin_page',
+        null,
+        $_SERVER['REMOTE_ADDR'] ?? null
+    );
 
     http_response_code(403);
     echo '<h1>403 Forbidden</h1>';
