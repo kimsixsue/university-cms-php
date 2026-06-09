@@ -83,6 +83,18 @@ if ($path === '/admin/login' && $method === 'POST') {
 }
 
 if ($path === '/admin/logout') {
+    $admin = currentAdmin();
+
+    if ($admin !== null) {
+        AdminLog::create(
+            (int) $admin['id'],
+            'logout',
+            'admin',
+            (int) $admin['id'],
+            clientIpAddress()
+        );
+    }
+
     $_SESSION = [];
 
     if (ini_get('session.use_cookies')) {
