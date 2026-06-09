@@ -40,6 +40,14 @@ if ($path === '/admin/login' && $method === 'POST') {
     $password = $_POST['password'] ?? '';
 
     if ($username === '' || $password === '') {
+        AdminLog::create(
+            null,
+            'login_failed',
+            'admin',
+            null,
+            clientIpAddress()
+        );
+
         $_SESSION['login_error'] = '아이디와 비밀번호를 입력해주세요.';
         $_SESSION['old_username'] = $username;
 
@@ -54,6 +62,14 @@ if ($path === '/admin/login' && $method === 'POST') {
         || $admin['status'] !== 'active'
         || !password_verify($password, $admin['password_hash'])
     ) {
+        AdminLog::create(
+            null,
+            'login_failed',
+            'admin',
+            null,
+            clientIpAddress()
+        );
+
         $_SESSION['login_error'] = '아이디 또는 비밀번호가 올바르지 않습니다.';
         $_SESSION['old_username'] = $username;
 
