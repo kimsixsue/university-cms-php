@@ -201,6 +201,16 @@ if ($path === '/admin/sites/update' && $method === 'POST') {
 
     try {
         Site::update($id, $siteCode, $name, $description, $status);
+
+        $admin = currentAdmin();
+
+        AdminLog::create(
+            $admin !== null ? (int) $admin['id'] : null,
+            'site_updated',
+            'site',
+            $id,
+            $_SERVER['REMOTE_ADDR'] ?? null
+        );
     } catch (PDOException $e) {
         $errors[] = '이미 사용 중인 사이트 코드입니다.';
 
