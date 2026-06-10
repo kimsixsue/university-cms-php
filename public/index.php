@@ -157,6 +157,29 @@ if ($path === '/admin/sites/edit' && $method === 'GET') {
     exit;
 }
 
+if ($path === '/admin/sites/update' && $method === 'POST') {
+    requireAdminRole('super_admin');
+
+    $id = (int) ($_POST['id'] ?? 0);
+    $siteCode = trim($_POST['site_code'] ?? '');
+    $name = trim($_POST['name'] ?? '');
+    $description = trim($_POST['description'] ?? '');
+    $status = $_POST['status'] ?? 'active';
+
+    if ($description === '') {
+        $description = null;
+    }
+
+    if (!in_array($status, ['active', 'inactive'], true)) {
+        $status = 'active';
+    }
+
+    Site::update($id, $siteCode, $name, $description, $status);
+
+    header('Location: /admin/sites');
+    exit;
+}
+
 if ($path === '/admin/sites' && $method === 'POST') {
     requireAdminRole('super_admin');
 
