@@ -11,6 +11,10 @@
         대학 부속홈페이지 사이트 목록을 확인하는 관리자 화면입니다.
     </p>
 
+    <p>
+        <a href="/admin/sites/create">사이트 등록</a>
+    </p>
+
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
             <tr>

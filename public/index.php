@@ -134,6 +134,13 @@ if ($path === '/admin/logout') {
     exit;
 }
 
+if ($path === '/admin/sites/create' && $method === 'GET') {
+    requireAdminRole('super_admin');
+
+    require __DIR__ . '/../app/Views/admin/sites/create.php';
+    exit;
+}
+
 if ($path === '/admin/sites') {
     requireAdminRole('super_admin');
 

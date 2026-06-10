@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>사이트 등록 - University CMS PHP</title>
+</head>
+<body>
+    <h1>사이트 등록</h1>
+
+    <p>
+        대학 부속홈페이지 사이트 정보를 등록하는 관리자 화면입니다.
+    </p>
+
+    <form method="post" action="/admin/sites">
+        <div>
+            <label for="site_code">사이트 코드</label><br>
+            <input type="text" id="site_code" name="site_code">
+        </div>
+
+        <div>
+            <label for="name">사이트명</label><br>
+            <input type="text" id="name" name="name">
+        </div>
+
+        <div>
+            <label for="description">설명</label><br>
+            <textarea id="description" name="description" rows="4" cols="50"></textarea>
+        </div>
+
+        <div>
+            <label for="status">상태</label><br>
+            <select id="status" name="status">
+                <option value="active">사용 중</option>
+                <option value="inactive">사용 중지</option>
+            </select>
+        </div>
+
+        <p>
+            <button type="submit">등록</button>
+        </p>
+    </form>
+
+    <p>
+        <a href="/admin/sites">사이트 목록으로 돌아가기</a>
+    </p>
+
+    <p>
+        <a href="/admin/logout">로그아웃</a>
+    </p>
+</body>
+</html>
