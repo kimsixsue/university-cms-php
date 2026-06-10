@@ -25,12 +25,13 @@
                 <th>상태</th>
                 <th>생성일시</th>
                 <th>수정일시</th>
+                <th>관리</th>
             </tr>
         </thead>
         <tbody>
             <?php if ($sites === []): ?>
                 <tr>
-                    <td colspan="7">등록된 사이트가 없습니다.</td>
+                    <td colspan="8">등록된 사이트가 없습니다.</td>
                 </tr>
             <?php endif; ?>
 
@@ -43,6 +44,9 @@
                     <td><?= htmlspecialchars($site['status'], ENT_QUOTES, 'UTF-8') ?></td>
                     <td><?= htmlspecialchars($site['created_at'], ENT_QUOTES, 'UTF-8') ?></td>
                     <td><?= htmlspecialchars($site['updated_at'] ?? '', ENT_QUOTES, 'UTF-8') ?></td>
+                    <td>
+                        <a href="/admin/sites/edit?id=<?= htmlspecialchars((string) $site['id'], ENT_QUOTES, 'UTF-8') ?>">수정</a>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

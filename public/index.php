@@ -141,6 +141,22 @@ if ($path === '/admin/sites/create' && $method === 'GET') {
     exit;
 }
 
+if ($path === '/admin/sites/edit' && $method === 'GET') {
+    requireAdminRole('super_admin');
+
+    $id = (int) ($_GET['id'] ?? 0);
+    $site = Site::find($id);
+
+    if ($site === null) {
+        http_response_code(404);
+        echo '사이트를 찾을 수 없습니다.';
+        exit;
+    }
+
+    require __DIR__ . '/../app/Views/admin/sites/edit.php';
+    exit;
+}
+
 if ($path === '/admin/sites' && $method === 'POST') {
     requireAdminRole('super_admin');
 
