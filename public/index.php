@@ -157,6 +157,8 @@ if ($path === '/admin/sites' && $method === 'POST') {
 
     if ($siteCode === '') {
         $errors[] = '사이트 코드를 입력해주세요.';
+    } elseif (!preg_match('/^[a-z0-9-]+$/', $siteCode)) {
+        $errors[] = '사이트 코드는 영문 소문자, 숫자, 하이픈(-)만 입력할 수 있습니다.';
     }
 
     if ($name === '') {
