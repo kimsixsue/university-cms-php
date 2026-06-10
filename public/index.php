@@ -199,7 +199,22 @@ if ($path === '/admin/sites/update' && $method === 'POST') {
         $description = null;
     }
 
-    Site::update($id, $siteCode, $name, $description, $status);
+    try {
+        Site::update($id, $siteCode, $name, $description, $status);
+    } catch (PDOException $e) {
+        $errors[] = '이미 사용 중인 사이트 코드입니다.';
+
+        $site = [
+            'id' => $id,
+            'site_code' => $siteCode,
+            'name' => $name,
+            'description' => $description ?? '',
+            'status' => $status,
+        ];
+
+        require __DIR__ . '/../app/Views/admin/sites/edit.php';
+        exit;
+    }
 
     header('Location: /admin/sites');
     exit;
