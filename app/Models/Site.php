@@ -84,4 +84,32 @@ class Site
 
         return $site !== false ? $site : null;
     }
+
+    public static function update(
+        int $id,
+        string $siteCode,
+        string $name,
+        ?string $description,
+        string $status
+    ): void {
+        $pdo = db();
+
+        $stmt = $pdo->prepare(
+            'UPDATE sites
+             SET
+                site_code = :site_code,
+                name = :name,
+                description = :description,
+                status = :status
+             WHERE id = :id'
+        );
+
+        $stmt->execute([
+            'id' => $id,
+            'site_code' => $siteCode,
+            'name' => $name,
+            'description' => $description,
+            'status' => $status,
+        ]);
+    }
 }
