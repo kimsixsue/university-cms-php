@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS admin_logs (
 
 CREATE TABLE IF NOT EXISTS sites (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    code VARCHAR(50) NOT NULL UNIQUE,
+    site_code VARCHAR(50) NOT NULL UNIQUE,
     name VARCHAR(100) NOT NULL,
     description VARCHAR(255) NULL,
     status ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
