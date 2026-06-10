@@ -149,12 +149,34 @@ if ($path === '/admin/sites' && $method === 'POST') {
     $description = trim($_POST['description'] ?? '');
     $status = $_POST['status'] ?? 'active';
 
-    if ($description === '') {
-        $description = null;
-    }
-
     if (!in_array($status, ['active', 'inactive'], true)) {
         $status = 'active';
+    }
+
+    $errors = [];
+
+    if ($siteCode === '') {
+        $errors[] = '사이트 코드를 입력해주세요.';
+    }
+
+    if ($name === '') {
+        $errors[] = '사이트명을 입력해주세요.';
+    }
+
+    if ($errors !== []) {
+        $old = [
+            'site_code' => $siteCode,
+            'name' => $name,
+            'description' => $description,
+            'status' => $status,
+        ];
+
+        require __DIR__ . '/../app/Views/admin/sites/create.php';
+        exit;
+    }
+
+    if ($description === '') {
+        $description = null;
     }
 
     Site::create($siteCode, $name, $description, $status);
