@@ -230,6 +230,27 @@ if ($path === '/admin/sites/update' && $method === 'POST') {
     exit;
 }
 
+if ($path === '/admin/sites/deactivate' && $method === 'POST') {
+    requireAdminRole('super_admin');
+
+    $id = (int) ($_POST['id'] ?? 0);
+
+    Site::deactivate($id);
+
+    $admin = currentAdmin();
+
+    AdminLog::create(
+        $admin !== null ? (int) $admin['id'] : null,
+        'site_deactivated',
+        'site',
+        $id,
+        $_SERVER['REMOTE_ADDR'] ?? null
+    );
+
+    header('Location: /admin/sites');
+    exit;
+}
+
 if ($path === '/admin/sites' && $method === 'POST') {
     requireAdminRole('super_admin');
 

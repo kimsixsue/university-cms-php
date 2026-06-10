@@ -46,6 +46,13 @@
                     <td><?= htmlspecialchars($site['updated_at'] ?? '', ENT_QUOTES, 'UTF-8') ?></td>
                     <td>
                         <a href="/admin/sites/edit?id=<?= htmlspecialchars((string) $site['id'], ENT_QUOTES, 'UTF-8') ?>">수정</a>
+
+                        <?php if ($site['status'] === 'active'): ?>
+                            <form method="post" action="/admin/sites/deactivate" style="display:inline;">
+                                <input type="hidden" name="id" value="<?= htmlspecialchars((string) $site['id'], ENT_QUOTES, 'UTF-8') ?>">
+                                <button type="submit">사용 중지</button>
+                            </form>
+                        <?php endif; ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
