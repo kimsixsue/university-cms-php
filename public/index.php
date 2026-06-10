@@ -141,7 +141,29 @@ if ($path === '/admin/sites/create' && $method === 'GET') {
     exit;
 }
 
-if ($path === '/admin/sites') {
+if ($path === '/admin/sites' && $method === 'POST') {
+    requireAdminRole('super_admin');
+
+    $siteCode = trim($_POST['site_code'] ?? '');
+    $name = trim($_POST['name'] ?? '');
+    $description = trim($_POST['description'] ?? '');
+    $status = $_POST['status'] ?? 'active';
+
+    if ($description === '') {
+        $description = null;
+    }
+
+    if (!in_array($status, ['active', 'inactive'], true)) {
+        $status = 'active';
+    }
+
+    Site::create($siteCode, $name, $description, $status);
+
+    header('Location: /admin/sites');
+    exit;
+}
+
+if ($path === '/admin/sites' && $method === 'GET') {
     requireAdminRole('super_admin');
 
     $sites = Site::all();
