@@ -182,7 +182,17 @@ if ($path === '/admin/sites' && $method === 'POST') {
     }
 
     try {
-        Site::create($siteCode, $name, $description, $status);
+        $siteId = Site::create($siteCode, $name, $description, $status);
+
+        $admin = currentAdmin();
+
+        AdminLog::create(
+            $admin !== null ? (int) $admin['id'] : null,
+            'site_created',
+            'site',
+            $siteId,
+            $_SERVER['REMOTE_ADDR'] ?? null
+        );
     } catch (PDOException $e) {
         $errors[] = '이미 사용 중인 사이트 코드입니다.';
 
