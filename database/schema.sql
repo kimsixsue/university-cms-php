@@ -82,3 +82,13 @@ JOIN roles r ON r.name = 'super_admin'
 WHERE a.username = 'admin'
 ON DUPLICATE KEY UPDATE
     role_id = VALUES(role_id);
+
+INSERT INTO sites (site_code, name, description, status)
+VALUES
+    ('main', '대표 홈페이지', '대학 대표 홈페이지입니다.', 'active'),
+    ('admission', '입학처', '입학 안내 콘텐츠를 관리하는 부속 홈페이지입니다.', 'active'),
+    ('library', '도서관', '도서관 공지사항과 자료 안내를 관리하는 부속 홈페이지입니다.', 'inactive')
+ON DUPLICATE KEY UPDATE
+    name = VALUES(name),
+    description = VALUES(description),
+    status = VALUES(status);
