@@ -57,4 +57,31 @@ class Site
 
         return (int) $pdo->lastInsertId();
     }
+
+    public static function find(int $id): ?array
+    {
+        $pdo = db();
+
+        $stmt = $pdo->prepare(
+            'SELECT
+                id,
+                site_code,
+                name,
+                description,
+                status,
+                created_at,
+                updated_at
+             FROM sites
+             WHERE id = :id
+             LIMIT 1'
+        );
+
+        $stmt->execute([
+            'id' => $id,
+        ]);
+
+        $site = $stmt->fetch();
+
+        return $site !== false ? $site : null;
+    }
 }
