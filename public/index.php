@@ -6,6 +6,7 @@ session_start();
 
 require_once __DIR__ . '/../app/Models/Admin.php';
 require_once __DIR__ . '/../app/Models/AdminLog.php';
+require_once __DIR__ . '/../app/Models/Site.php';
 require_once __DIR__ . '/../app/Core/Auth.php';
 
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?? '/';
@@ -130,6 +131,15 @@ if ($path === '/admin/logout') {
     session_destroy();
 
     header('Location: /admin/login');
+    exit;
+}
+
+if ($path === '/admin/sites') {
+    requireAdminRole('super_admin');
+
+    $sites = Site::all();
+
+    require __DIR__ . '/../app/Views/admin/sites/index.php';
     exit;
 }
 
