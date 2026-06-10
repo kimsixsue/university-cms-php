@@ -25,4 +25,36 @@ class Site
 
         return $stmt->fetchAll();
     }
+
+    public static function create(
+        string $siteCode,
+        string $name,
+        ?string $description,
+        string $status
+    ): int {
+        $pdo = db();
+
+        $stmt = $pdo->prepare(
+            'INSERT INTO sites (
+                site_code,
+                name,
+                description,
+                status
+             ) VALUES (
+                :site_code,
+                :name,
+                :description,
+                :status
+             )'
+        );
+
+        $stmt->execute([
+            'site_code' => $siteCode,
+            'name' => $name,
+            'description' => $description,
+            'status' => $status,
+        ]);
+
+        return (int) $pdo->lastInsertId();
+    }
 }
