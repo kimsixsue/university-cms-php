@@ -66,11 +66,10 @@ PHP·MySQL 기반 대학 부속홈페이지 통합관리 CMS 프로젝트입니�
 * PHP 8.3
 * MySQL 8.4
 * PDO
-* HTML/CSS
-* Bootstrap
-* JavaScript
-* jQuery
+* HTML
+* Apache HTTP Server
 * Docker Compose
+* phpMyAdmin
 * Git/GitHub
 
 ## 문서
