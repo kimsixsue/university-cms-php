@@ -112,4 +112,20 @@ class Site
             'status' => $status,
         ]);
     }
+
+    public static function deactivate(int $id): void
+    {
+        $pdo = db();
+
+        $stmt = $pdo->prepare(
+            'UPDATE sites
+             SET status = :status
+             WHERE id = :id'
+        );
+
+        $stmt->execute([
+            'id' => $id,
+            'status' => 'inactive',
+        ]);
+    }
 }
