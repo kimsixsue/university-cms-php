@@ -166,12 +166,37 @@ if ($path === '/admin/sites/update' && $method === 'POST') {
     $description = trim($_POST['description'] ?? '');
     $status = $_POST['status'] ?? 'active';
 
-    if ($description === '') {
-        $description = null;
-    }
-
     if (!in_array($status, ['active', 'inactive'], true)) {
         $status = 'active';
+    }
+
+    $errors = [];
+
+    if ($siteCode === '') {
+        $errors[] = '사이트 코드를 입력해주세요.';
+    } elseif (!preg_match('/^[a-z0-9-]+$/', $siteCode)) {
+        $errors[] = '사이트 코드는 영문 소문자, 숫자, 하이픈(-)만 입력할 수 있습니다.';
+    }
+
+    if ($name === '') {
+        $errors[] = '사이트명을 입력해주세요.';
+    }
+
+    if ($errors !== []) {
+        $site = [
+            'id' => $id,
+            'site_code' => $siteCode,
+            'name' => $name,
+            'description' => $description,
+            'status' => $status,
+        ];
+
+        require __DIR__ . '/../app/Views/admin/sites/edit.php';
+        exit;
+    }
+
+    if ($description === '') {
+        $description = null;
     }
 
     Site::update($id, $siteCode, $name, $description, $status);

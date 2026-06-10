@@ -11,6 +11,17 @@
         대학 부속홈페이지 사이트 정보를 수정하는 관리자 화면입니다.
     </p>
 
+    <?php if (!empty($errors)): ?>
+        <div>
+            <p>입력값을 확인해주세요.</p>
+            <ul>
+                <?php foreach ($errors as $error): ?>
+                    <li><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
+
     <form method="post" action="/admin/sites/update">
         <input type="hidden" name="id" value="<?= htmlspecialchars((string) $site['id'], ENT_QUOTES, 'UTF-8') ?>">
 
