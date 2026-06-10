@@ -53,6 +53,13 @@
                                 <button type="submit">사용 중지</button>
                             </form>
                         <?php endif; ?>
+
+                        <?php if ($site['status'] === 'inactive'): ?>
+                            <form method="post" action="/admin/sites/activate" style="display:inline;">
+                                <input type="hidden" name="id" value="<?= htmlspecialchars((string) $site['id'], ENT_QUOTES, 'UTF-8') ?>">
+                                <button type="submit">사용 재개</button>
+                            </form>
+                        <?php endif; ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
