@@ -80,6 +80,33 @@ PHP·MySQL 기반 대학 부속홈페이지 통합관리 CMS 프로젝트입니�
 * [화면목록](docs/screens.md)
 * [개발기록](docs/dev-log.md)
 
+## 로컬 실행 방법
+
+```powershell
+copy .env.example .env
+docker compose up -d --build
+```
+
+앱 접속:
+
+```text
+http://localhost:8080
+```
+
+관리자 로그인:
+
+```text
+http://localhost:8080/admin/login
+```
+
+phpMyAdmin:
+
+```text
+http://localhost:8081
+```
+
+개발 DB는 `.env.example` 기준으로 `university_cms`를 사용합니다.
+
 ## 개발 진행 계획
 
 1. 요구사항 정의
