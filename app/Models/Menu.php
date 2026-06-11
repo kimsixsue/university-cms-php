@@ -34,4 +34,52 @@ class Menu
 
         return $stmt->fetchAll();
     }
+
+    public static function create(
+        int $siteId,
+        ?int $parentId,
+        string $name,
+        string $menuType,
+        ?int $targetId,
+        ?string $linkUrl,
+        int $sortOrder,
+        bool $isVisible
+    ): int {
+        $pdo = db();
+
+        $stmt = $pdo->prepare(
+            'INSERT INTO menus (
+                site_id,
+                parent_id,
+                name,
+                menu_type,
+                target_id,
+                link_url,
+                sort_order,
+                is_visible
+             ) VALUES (
+                :site_id,
+                :parent_id,
+                :name,
+                :menu_type,
+                :target_id,
+                :link_url,
+                :sort_order,
+                :is_visible
+             )'
+        );
+
+        $stmt->execute([
+            'site_id' => $siteId,
+            'parent_id' => $parentId,
+            'name' => $name,
+            'menu_type' => $menuType,
+            'target_id' => $targetId,
+            'link_url' => $linkUrl,
+            'sort_order' => $sortOrder,
+            'is_visible' => $isVisible ? 1 : 0,
+        ]);
+
+        return (int) $pdo->lastInsertId();
+    }
 }
