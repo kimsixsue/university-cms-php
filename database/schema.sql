@@ -53,6 +53,28 @@ CREATE TABLE IF NOT EXISTS sites (
     updated_at DATETIME NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS menus (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    site_id BIGINT UNSIGNED NOT NULL,
+    parent_id BIGINT UNSIGNED NULL,
+    name VARCHAR(100) NOT NULL,
+    menu_type ENUM('page', 'board', 'link') NOT NULL DEFAULT 'page',
+    target_id BIGINT UNSIGNED NULL,
+    link_url VARCHAR(255) NULL,
+    sort_order INT UNSIGNED NOT NULL DEFAULT 0,
+    is_visible TINYINT(1) NOT NULL DEFAULT 1,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_menus_site_id (site_id),
+    INDEX idx_menus_parent_id (parent_id),
+    CONSTRAINT fk_menus_site
+        FOREIGN KEY (site_id) REFERENCES sites(id)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_menus_parent
+        FOREIGN KEY (parent_id) REFERENCES menus(id)
+        ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 INSERT INTO roles (name, description)
 VALUES
     ('super_admin', '최고관리자'),
