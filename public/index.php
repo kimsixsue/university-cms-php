@@ -7,6 +7,7 @@ session_start();
 require_once __DIR__ . '/../app/Models/Admin.php';
 require_once __DIR__ . '/../app/Models/AdminLog.php';
 require_once __DIR__ . '/../app/Models/Site.php';
+require_once __DIR__ . '/../app/Models/Menu.php';
 require_once __DIR__ . '/../app/Core/Auth.php';
 
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?? '/';
@@ -348,6 +349,22 @@ if ($path === '/admin/sites' && $method === 'GET') {
     $sites = Site::all();
 
     require __DIR__ . '/../app/Views/admin/sites/index.php';
+    exit;
+}
+
+if ($path === '/admin/menus' && $method === 'GET') {
+    requireAdminRole('super_admin');
+
+    $sites = Site::all();
+    $selectedSiteId = (int) ($_GET['site_id'] ?? 0);
+
+    if ($selectedSiteId <= 0 && $sites !== []) {
+        $selectedSiteId = (int) $sites[0]['id'];
+    }
+
+    $menus = $selectedSiteId > 0 ? Menu::allBySite($selectedSiteId) : [];
+
+    require __DIR__ . '/../app/Views/admin/menus/index.php';
     exit;
 }
 
