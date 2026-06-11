@@ -11,6 +11,10 @@
         사이트별 메뉴 목록을 확인하는 관리자 화면입니다.
     </p>
 
+    <p>
+        <a href="/admin/menus/create">메뉴 등록</a>
+    </p>
+
     <form method="get" action="/admin/menus">
         <label for="site_id">사이트 선택</label>
         <select id="site_id" name="site_id">
