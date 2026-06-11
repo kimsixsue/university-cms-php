@@ -10,7 +10,7 @@ PHP·MySQL 기반 대학 부속홈페이지 통합관리 CMS 프로젝트입니�
 
 단순 게시판 구현이 아니라, 요구사항 정리부터 DB 설계, 관리자 기능 구현, 사용자 화면 구현, 테스트, 실행 방법 문서화까지 처음부터 끝까지 직접 구축하는 것을 목표로 합니다.
 
-## 구현 예정 기능
+## 주요 구현 목표
 
 * 관리자 로그인/로그아웃
 * 관리자 역할관리
@@ -66,11 +66,10 @@ PHP·MySQL 기반 대학 부속홈페이지 통합관리 CMS 프로젝트입니�
 * PHP 8.3
 * MySQL 8.4
 * PDO
-* HTML/CSS
-* Bootstrap
-* JavaScript
-* jQuery
+* HTML
+* Apache HTTP Server
 * Docker Compose
+* phpMyAdmin
 * Git/GitHub
 
 ## 문서
@@ -80,19 +79,49 @@ PHP·MySQL 기반 대학 부속홈페이지 통합관리 CMS 프로젝트입니�
 * [화면목록](docs/screens.md)
 * [개발기록](docs/dev-log.md)
 
+## 로컬 실행 방법
+
+```powershell
+copy .env.example .env
+docker compose up -d --build
+```
+
+앱 접속:
+
+```text
+http://localhost:8080
+```
+
+관리자 로그인:
+
+```text
+http://localhost:8080/admin/login
+```
+
+phpMyAdmin:
+
+```text
+http://localhost:8081
+```
+
+개발 DB는 `.env.example` 기준으로 `university_cms`를 사용합니다.
+
 ## 개발 진행 계획
 
 1. 요구사항 정의
 2. DB 설계
 3. 화면목록 정리
 4. 프로젝트 폴더 구조 구성
-5. 관리자 로그인 구현
-6. 관리자 역할관리 구현
-7. 사이트/메뉴/페이지 관리 구현
-8. 게시판 및 첨부파일 업로드 구현
-9. 배너/팝업 관리 구현
-10. 페이지 수정 이력 및 관리자 작업 로그 구현
-11. 실행 방법 및 화면 캡처 정리
+5. 관리자 로그인/로그아웃 구현
+6. 관리자 역할 기반 접근 제한 구현
+7. 관리자 작업 로그 구현
+8. 사이트 관리 구현
+9. 메뉴 관리 구현
+10. 일반 페이지 관리 구현
+11. 게시판 및 첨부파일 업로드 구현
+12. 배너/팝업 관리 구현
+13. 페이지 수정 이력 구현
+14. 실행 방법 및 화면 캡처 정리
 
 ## 주의사항
 
