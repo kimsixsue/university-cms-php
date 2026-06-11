@@ -82,4 +82,35 @@ class Menu
 
         return (int) $pdo->lastInsertId();
     }
+
+    public static function find(int $id): ?array
+    {
+        $pdo = db();
+
+        $stmt = $pdo->prepare(
+            'SELECT
+                id,
+                site_id,
+                parent_id,
+                name,
+                menu_type,
+                target_id,
+                link_url,
+                sort_order,
+                is_visible,
+                created_at,
+                updated_at
+             FROM menus
+             WHERE id = :id
+             LIMIT 1'
+        );
+
+        $stmt->execute([
+            'id' => $id,
+        ]);
+
+        $menu = $stmt->fetch();
+
+        return $menu === false ? null : $menu;
+    }
 }
