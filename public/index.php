@@ -361,6 +361,99 @@ if ($path === '/admin/menus/create' && $method === 'GET') {
     exit;
 }
 
+if ($path === '/admin/menus' && $method === 'POST') {
+    requireAdminRole('super_admin');
+
+    $siteId = (int) ($_POST['site_id'] ?? 0);
+    $parentId = trim($_POST['parent_id'] ?? '');
+    $name = trim($_POST['name'] ?? '');
+    $menuType = $_POST['menu_type'] ?? 'page';
+    $targetId = trim($_POST['target_id'] ?? '');
+    $linkUrl = trim($_POST['link_url'] ?? '');
+    $sortOrder = (int) ($_POST['sort_order'] ?? 0);
+    $isVisible = $_POST['is_visible'] ?? '1';
+
+    $errors = [];
+
+    if ($siteId <= 0 || Site::find($siteId) === null) {
+        $errors[] = '사이트를 선택해주세요.';
+    }
+
+    if ($name === '') {
+        $errors[] = '메뉴명을 입력해주세요.';
+    }
+
+    if (!in_array($menuType, ['page', 'board', 'link'], true)) {
+        $errors[] = '메뉴 유형이 올바르지 않습니다.';
+    }
+
+    if ($sortOrder < 0) {
+        $errors[] = '정렬 순서는 0 이상이어야 합니다.';
+    }
+
+    if (!in_array($isVisible, ['0', '1'], true)) {
+        $errors[] = '노출 여부가 올바르지 않습니다.';
+    }
+
+    if ($parentId === '') {
+        $parentId = null;
+    } else {
+        $parentId = (int) $parentId;
+    }
+
+    if ($targetId === '') {
+        $targetId = null;
+    } else {
+        $targetId = (int) $targetId;
+    }
+
+    if ($linkUrl === '') {
+        $linkUrl = null;
+    }
+
+    if ($errors !== []) {
+        $sites = Site::all();
+
+        $old = [
+            'site_id' => $siteId,
+            'parent_id' => $parentId,
+            'name' => $name,
+            'menu_type' => $menuType,
+            'target_id' => $targetId,
+            'link_url' => $linkUrl,
+            'sort_order' => $sortOrder,
+            'is_visible' => $isVisible,
+        ];
+
+        require __DIR__ . '/../app/Views/admin/menus/create.php';
+        exit;
+    }
+
+    $menuId = Menu::create(
+        $siteId,
+        $parentId,
+        $name,
+        $menuType,
+        $targetId,
+        $linkUrl,
+        $sortOrder,
+        $isVisible === '1'
+    );
+
+    $admin = currentAdmin();
+
+    AdminLog::create(
+        $admin !== null ? (int) $admin['id'] : null,
+        'menu_created',
+        'menu',
+        $menuId,
+        $_SERVER['REMOTE_ADDR'] ?? null
+    );
+
+    header('Location: /admin/menus?site_id=' . $siteId);
+    exit;
+}
+
 if ($path === '/admin/menus' && $method === 'GET') {
     requireAdminRole('super_admin');
 
