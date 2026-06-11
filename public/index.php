@@ -352,6 +352,15 @@ if ($path === '/admin/sites' && $method === 'GET') {
     exit;
 }
 
+if ($path === '/admin/menus/create' && $method === 'GET') {
+    requireAdminRole('super_admin');
+
+    $sites = Site::all();
+
+    require __DIR__ . '/../app/Views/admin/menus/create.php';
+    exit;
+}
+
 if ($path === '/admin/menus' && $method === 'GET') {
     requireAdminRole('super_admin');
 
