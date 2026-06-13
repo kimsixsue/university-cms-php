@@ -43,14 +43,23 @@
         </div>
 
         <div>
-            <label for="parent_id">상위 메뉴 ID</label>
-            <input
-                type="number"
-                id="parent_id"
-                name="parent_id"
-                min="1"
-                value="<?= htmlspecialchars((string) ($menu['parent_id'] ?? ''), ENT_QUOTES, 'UTF-8') ?>">
-            <p>최상위 메뉴로 두려면 비워둡니다.</p>
+            <label for="parent_id">상위 메뉴</label>
+            <select id="parent_id" name="parent_id">
+                <option value="">최상위 메뉴</option>
+                <?php foreach (($parentMenus ?? []) as $parentMenu): ?>
+                    <?php if ((int) $parentMenu['id'] === (int) $menu['id']): ?>
+                        <?php continue; ?>
+                    <?php endif; ?>
+
+                    <option
+                        value="<?= htmlspecialchars((string) $parentMenu['id'], ENT_QUOTES, 'UTF-8') ?>"
+                        <?= (int) $parentMenu['id'] === (int) ($menu['parent_id'] ?? 0) ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($parentMenu['name'], ENT_QUOTES, 'UTF-8') ?>
+                        (ID: <?= htmlspecialchars((string) $parentMenu['id'], ENT_QUOTES, 'UTF-8') ?>)
+                    </option>
+                <?php endforeach; ?>
+            </select>
+            <p>최상위 메뉴로 두려면 “최상위 메뉴”를 선택합니다.</p>
         </div>
 
         <div>

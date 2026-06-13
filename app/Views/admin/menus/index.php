@@ -14,7 +14,7 @@
     </p>
 
     <p>
-        <a href="/admin/menus/create">메뉴 등록</a>
+        <a href="/admin/menus/create?site_id=<?= htmlspecialchars((string) $selectedSiteId, ENT_QUOTES, 'UTF-8') ?>">메뉴 등록</a>
     </p>
 
     <form method="get" action="/admin/menus">

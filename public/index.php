@@ -356,6 +356,17 @@ if ($path === '/admin/menus/create' && $method === 'GET') {
     requireAdminRole('super_admin');
 
     $sites = Site::all();
+    $selectedSiteId = (int) ($_GET['site_id'] ?? 0);
+
+    if ($selectedSiteId <= 0 && $sites !== []) {
+        $selectedSiteId = (int) $sites[0]['id'];
+    }
+
+    $parentMenus = $selectedSiteId > 0 ? Menu::allBySite($selectedSiteId) : [];
+
+    $old = [
+        'site_id' => $selectedSiteId,
+    ];
 
     require __DIR__ . '/../app/Views/admin/menus/create.php';
     exit;
@@ -374,6 +385,7 @@ if ($path === '/admin/menus/edit' && $method === 'GET') {
     }
 
     $sites = Site::all();
+    $parentMenus = Menu::allBySite((int) $menu['site_id']);
 
     require __DIR__ . '/../app/Views/admin/menus/edit.php';
     exit;
@@ -452,6 +464,7 @@ if ($path === '/admin/menus/update' && $method === 'POST') {
 
     if ($errors !== []) {
         $sites = Site::all();
+        $parentMenus = $siteId > 0 ? Menu::allBySite($siteId) : [];
 
         $menu = [
             'id' => $id,
@@ -495,6 +508,7 @@ if ($path === '/admin/menus/update' && $method === 'POST') {
         $errors[] = '메뉴 수정 중 오류가 발생했습니다. 입력값을 확인한 뒤 다시 시도해주세요.';
 
         $sites = Site::all();
+        $parentMenus = $siteId > 0 ? Menu::allBySite($siteId) : [];
 
         $menu = [
             'id' => $id,
@@ -578,6 +592,7 @@ if ($path === '/admin/menus' && $method === 'POST') {
 
     if ($errors !== []) {
         $sites = Site::all();
+        $parentMenus = $siteId > 0 ? Menu::allBySite($siteId) : [];
 
         $old = [
             'site_id' => $siteId,
