@@ -566,6 +566,10 @@ if ($path === '/admin/menus' && $method === 'POST') {
         $targetId = null;
     } else {
         $targetId = (int) $targetId;
+
+        if ($targetId <= 0) {
+            $errors[] = '대상 ID는 1 이상의 숫자로 입력해주세요.';
+        }
     }
 
     if ($linkUrl === '') {
