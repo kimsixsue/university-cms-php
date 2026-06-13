@@ -45,12 +45,13 @@
                 <th>정렬 순서</th>
                 <th>노출 여부</th>
                 <th>생성일시</th>
+                <th>관리</th>
             </tr>
         </thead>
         <tbody>
             <?php if ($menus === []): ?>
                 <tr>
-                    <td colspan="9">등록된 메뉴가 없습니다.</td>
+                    <td colspan="10">등록된 메뉴가 없습니다.</td>
                 </tr>
             <?php endif; ?>
 
@@ -65,6 +66,9 @@
                     <td><?= htmlspecialchars((string) $menu['sort_order'], ENT_QUOTES, 'UTF-8') ?></td>
                     <td><?= (int) $menu['is_visible'] === 1 ? '노출' : '숨김' ?></td>
                     <td><?= htmlspecialchars($menu['created_at'], ENT_QUOTES, 'UTF-8') ?></td>
+                    <td>
+                        <a href="/admin/menus/edit?id=<?= htmlspecialchars((string) $menu['id'], ENT_QUOTES, 'UTF-8') ?>">수정</a>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

@@ -361,6 +361,24 @@ if ($path === '/admin/menus/create' && $method === 'GET') {
     exit;
 }
 
+if ($path === '/admin/menus/edit' && $method === 'GET') {
+    requireAdminRole('super_admin');
+
+    $id = (int) ($_GET['id'] ?? 0);
+    $menu = Menu::find($id);
+
+    if ($menu === null) {
+        http_response_code(404);
+        echo '메뉴를 찾을 수 없습니다.';
+        exit;
+    }
+
+    $sites = Site::all();
+
+    require __DIR__ . '/../app/Views/admin/menus/edit.php';
+    exit;
+}
+
 if ($path === '/admin/menus' && $method === 'POST') {
     requireAdminRole('super_admin');
 
