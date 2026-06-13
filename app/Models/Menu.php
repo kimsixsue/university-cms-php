@@ -12,20 +12,24 @@ class Menu
 
         $stmt = $pdo->prepare(
             'SELECT
-                id,
-                site_id,
-                parent_id,
-                name,
-                menu_type,
-                target_id,
-                link_url,
-                sort_order,
-                is_visible,
-                created_at,
-                updated_at
+                menus.id,
+                menus.site_id,
+                menus.parent_id,
+                parent_menus.name AS parent_name,
+                menus.name,
+                menus.menu_type,
+                menus.target_id,
+                menus.link_url,
+                menus.sort_order,
+                menus.is_visible,
+                menus.created_at,
+                menus.updated_at
              FROM menus
-             WHERE site_id = :site_id
-             ORDER BY sort_order ASC, id ASC'
+             LEFT JOIN menus AS parent_menus
+                ON parent_menus.id = menus.parent_id
+                AND parent_menus.site_id = menus.site_id
+             WHERE menus.site_id = :site_id
+             ORDER BY menus.sort_order ASC, menus.id ASC'
         );
 
         $stmt->execute([

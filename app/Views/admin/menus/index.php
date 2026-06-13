@@ -37,7 +37,7 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>상위 메뉴 ID</th>
+                <th>상위 메뉴</th>
                 <th>메뉴명</th>
                 <th>메뉴 유형</th>
                 <th>대상 ID</th>
@@ -58,6 +58,17 @@
             <?php foreach ($menus as $menu): ?>
                 <tr>
                     <td><?= htmlspecialchars((string) $menu['id'], ENT_QUOTES, 'UTF-8') ?></td>
+                    <td>
+                        <?php if ($menu['parent_id'] === null): ?>
+                            최상위 메뉴
+                        <?php elseif (($menu['parent_name'] ?? '') !== ''): ?>
+                            <?= htmlspecialchars($menu['parent_name'], ENT_QUOTES, 'UTF-8') ?>
+                            (ID: <?= htmlspecialchars((string) $menu['parent_id'], ENT_QUOTES, 'UTF-8') ?>)
+                        <?php else: ?>
+                            알 수 없는 상위 메뉴
+                            (ID: <?= htmlspecialchars((string) $menu['parent_id'], ENT_QUOTES, 'UTF-8') ?>)
+                        <?php endif; ?>
+                    </td>
                     <td><?= htmlspecialchars((string) ($menu['parent_id'] ?? ''), ENT_QUOTES, 'UTF-8') ?></td>
                     <td><?= htmlspecialchars($menu['name'], ENT_QUOTES, 'UTF-8') ?></td>
                     <td><?= htmlspecialchars($menu['menu_type'], ENT_QUOTES, 'UTF-8') ?></td>
