@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <title>사이트 등록 - University CMS PHP</title>
 </head>
+
 <body>
     <h1>사이트 등록</h1>
 
@@ -29,8 +31,7 @@
                 type="text"
                 id="site_code"
                 name="site_code"
-                value="<?= htmlspecialchars($old['site_code'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
-            >
+                value="<?= htmlspecialchars($old['site_code'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
         </div>
 
         <div>
@@ -39,8 +40,7 @@
                 type="text"
                 id="name"
                 name="name"
-                value="<?= htmlspecialchars($old['name'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
-            >
+                value="<?= htmlspecialchars($old['name'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
         </div>
 
         <div>
@@ -69,4 +69,5 @@
         <a href="/admin/logout">로그아웃</a>
     </p>
 </body>
+
 </html>

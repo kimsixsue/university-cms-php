@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <title>메뉴 등록 - University CMS PHP</title>
 </head>
+
 <body>
     <h1>메뉴 등록</h1>
 
@@ -26,8 +28,7 @@
                 <?php foreach ($sites as $site): ?>
                     <option
                         value="<?= htmlspecialchars((string) $site['id'], ENT_QUOTES, 'UTF-8') ?>"
-                        <?= (int) $site['id'] === (int) ($old['site_id'] ?? 0) ? 'selected' : '' ?>
-                    >
+                        <?= (int) $site['id'] === (int) ($old['site_id'] ?? 0) ? 'selected' : '' ?>>
                         <?= htmlspecialchars($site['name'], ENT_QUOTES, 'UTF-8') ?>
                         (<?= htmlspecialchars($site['site_code'], ENT_QUOTES, 'UTF-8') ?>)
                     </option>
@@ -42,8 +43,7 @@
                 id="parent_id"
                 name="parent_id"
                 min="1"
-                value="<?= htmlspecialchars((string) ($old['parent_id'] ?? ''), ENT_QUOTES, 'UTF-8') ?>"
-            >
+                value="<?= htmlspecialchars((string) ($old['parent_id'] ?? ''), ENT_QUOTES, 'UTF-8') ?>">
             <p>최상위 메뉴로 등록하려면 비워둡니다.</p>
         </div>
 
@@ -54,8 +54,7 @@
                 id="name"
                 name="name"
                 value="<?= htmlspecialchars($old['name'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
-                required
-            >
+                required>
         </div>
 
         <div>
@@ -74,8 +73,7 @@
                 id="target_id"
                 name="target_id"
                 min="1"
-                value="<?= htmlspecialchars((string) ($old['target_id'] ?? ''), ENT_QUOTES, 'UTF-8') ?>"
-            >
+                value="<?= htmlspecialchars((string) ($old['target_id'] ?? ''), ENT_QUOTES, 'UTF-8') ?>">
             <p>일반 페이지 또는 게시판과 연결할 때 사용할 예정입니다. 지금은 비워둘 수 있습니다.</p>
         </div>
 
@@ -85,8 +83,7 @@
                 type="text"
                 id="link_url"
                 name="link_url"
-                value="<?= htmlspecialchars($old['link_url'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
-            >
+                value="<?= htmlspecialchars($old['link_url'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
             <p>메뉴 유형이 외부 링크일 때 사용할 예정입니다.</p>
         </div>
 
@@ -98,8 +95,7 @@
                 name="sort_order"
                 min="0"
                 value="<?= htmlspecialchars((string) ($old['sort_order'] ?? 0), ENT_QUOTES, 'UTF-8') ?>"
-                required
-            >
+                required>
         </div>
 
         <div>
@@ -125,4 +121,5 @@
         <a href="/admin/logout">로그아웃</a>
     </p>
 </body>
+
 </html>

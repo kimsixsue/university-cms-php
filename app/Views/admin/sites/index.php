@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <title>사이트 관리 - University CMS PHP</title>
 </head>
+
 <body>
     <h1>사이트 관리</h1>
 
@@ -74,4 +76,5 @@
         <a href="/admin/logout">로그아웃</a>
     </p>
 </body>
+
 </html>

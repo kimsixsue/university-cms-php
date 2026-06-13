@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <title>메뉴 관리 - University CMS PHP</title>
 </head>
+
 <body>
     <h1>메뉴 관리</h1>
 
@@ -21,8 +23,7 @@
             <?php foreach ($sites as $site): ?>
                 <option
                     value="<?= htmlspecialchars((string) $site['id'], ENT_QUOTES, 'UTF-8') ?>"
-                    <?= (int) $site['id'] === $selectedSiteId ? 'selected' : '' ?>
-                >
+                    <?= (int) $site['id'] === $selectedSiteId ? 'selected' : '' ?>>
                     <?= htmlspecialchars($site['name'], ENT_QUOTES, 'UTF-8') ?>
                     (<?= htmlspecialchars($site['site_code'], ENT_QUOTES, 'UTF-8') ?>)
                 </option>
@@ -77,4 +78,5 @@
         <a href="/admin/logout">로그아웃</a>
     </p>
 </body>
+
 </html>

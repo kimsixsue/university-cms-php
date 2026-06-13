@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <title>관리자 로그인 - University CMS PHP</title>
 </head>
+
 <body>
     <h1>관리자 로그인</h1>
 
@@ -24,8 +26,7 @@
                 name="username"
                 value="<?= htmlspecialchars($oldUsername ?? '', ENT_QUOTES, 'UTF-8') ?>"
                 required
-                autocomplete="username"
-            >
+                autocomplete="username">
         </div>
 
         <br>
@@ -37,8 +38,7 @@
                 id="password"
                 name="password"
                 required
-                autocomplete="current-password"
-            >
+                autocomplete="current-password">
         </div>
 
         <br>
@@ -50,4 +50,5 @@
         <a href="/">메인으로 돌아가기</a>
     </p>
 </body>
+
 </html>

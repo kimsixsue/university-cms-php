@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <title>관리자 대시보드 - University CMS PHP</title>
 </head>
+
 <body>
     <h1>관리자 대시보드</h1>
 
@@ -33,4 +35,5 @@
         <a href="/admin/logout">로그아웃</a>
     </p>
 </body>
+
 </html>
