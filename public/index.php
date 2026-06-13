@@ -379,6 +379,143 @@ if ($path === '/admin/menus/edit' && $method === 'GET') {
     exit;
 }
 
+if ($path === '/admin/menus/update' && $method === 'POST') {
+    requireAdminRole('super_admin');
+
+    $id = (int) ($_POST['id'] ?? 0);
+    $existingMenu = Menu::find($id);
+
+    if ($existingMenu === null) {
+        http_response_code(404);
+        echo '메뉴를 찾을 수 없습니다.';
+        exit;
+    }
+
+    $siteId = (int) ($_POST['site_id'] ?? 0);
+    $parentId = trim($_POST['parent_id'] ?? '');
+    $name = trim($_POST['name'] ?? '');
+    $menuType = $_POST['menu_type'] ?? 'page';
+    $targetId = trim($_POST['target_id'] ?? '');
+    $linkUrl = trim($_POST['link_url'] ?? '');
+    $sortOrder = (int) ($_POST['sort_order'] ?? 0);
+    $isVisible = $_POST['is_visible'] ?? '1';
+
+    $errors = [];
+
+    if ($siteId <= 0 || Site::find($siteId) === null) {
+        $errors[] = '사이트를 선택해주세요.';
+    }
+
+    if ($name === '') {
+        $errors[] = '메뉴명을 입력해주세요.';
+    }
+
+    if (!in_array($menuType, ['page', 'board', 'link'], true)) {
+        $errors[] = '메뉴 유형이 올바르지 않습니다.';
+    }
+
+    if ($sortOrder < 0) {
+        $errors[] = '정렬 순서는 0 이상이어야 합니다.';
+    }
+
+    if (!in_array($isVisible, ['0', '1'], true)) {
+        $errors[] = '노출 여부가 올바르지 않습니다.';
+    }
+
+    if ($parentId === '') {
+        $parentId = null;
+    } else {
+        $parentId = (int) $parentId;
+
+        if ($parentId <= 0) {
+            $errors[] = '상위 메뉴 ID는 1 이상의 숫자로 입력해주세요.';
+        } elseif ($parentId === $id) {
+            $errors[] = '자기 자신을 상위 메뉴로 지정할 수 없습니다.';
+        } elseif (Menu::find($parentId) === null) {
+            $errors[] = '상위 메뉴를 찾을 수 없습니다.';
+        }
+    }
+
+    if ($targetId === '') {
+        $targetId = null;
+    } else {
+        $targetId = (int) $targetId;
+
+        if ($targetId <= 0) {
+            $errors[] = '대상 ID는 1 이상의 숫자로 입력해주세요.';
+        }
+    }
+
+    if ($linkUrl === '') {
+        $linkUrl = null;
+    }
+
+    if ($errors !== []) {
+        $sites = Site::all();
+
+        $menu = [
+            'id' => $id,
+            'site_id' => $siteId,
+            'parent_id' => $parentId,
+            'name' => $name,
+            'menu_type' => $menuType,
+            'target_id' => $targetId,
+            'link_url' => $linkUrl,
+            'sort_order' => $sortOrder,
+            'is_visible' => $isVisible,
+        ];
+
+        require __DIR__ . '/../app/Views/admin/menus/edit.php';
+        exit;
+    }
+
+    try {
+        Menu::update(
+            $id,
+            $siteId,
+            $parentId,
+            $name,
+            $menuType,
+            $targetId,
+            $linkUrl,
+            $sortOrder,
+            $isVisible === '1'
+        );
+
+        $admin = currentAdmin();
+
+        AdminLog::create(
+            $admin !== null ? (int) $admin['id'] : null,
+            'menu_updated',
+            'menu',
+            $id,
+            $_SERVER['REMOTE_ADDR'] ?? null
+        );
+    } catch (PDOException $e) {
+        $errors[] = '메뉴 수정 중 오류가 발생했습니다. 입력값을 확인한 뒤 다시 시도해주세요.';
+
+        $sites = Site::all();
+
+        $menu = [
+            'id' => $id,
+            'site_id' => $siteId,
+            'parent_id' => $parentId,
+            'name' => $name,
+            'menu_type' => $menuType,
+            'target_id' => $targetId,
+            'link_url' => $linkUrl,
+            'sort_order' => $sortOrder,
+            'is_visible' => $isVisible,
+        ];
+
+        require __DIR__ . '/../app/Views/admin/menus/edit.php';
+        exit;
+    }
+
+    header('Location: /admin/menus?site_id=' . $siteId);
+    exit;
+}
+
 if ($path === '/admin/menus' && $method === 'POST') {
     requireAdminRole('super_admin');
 

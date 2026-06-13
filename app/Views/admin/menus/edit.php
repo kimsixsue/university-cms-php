@@ -14,8 +14,16 @@
     </p>
 
     <p>
-        이번 단계에서는 수정 화면만 구현합니다. 실제 저장 처리는 다음 단계에서 구현합니다.
+        수정 후 저장 버튼을 누르면 메뉴 정보가 변경됩니다.
     </p>
+
+    <?php if (($errors ?? []) !== []): ?>
+        <ul>
+            <?php foreach ($errors as $error): ?>
+                <li><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
 
     <form method="post" action="/admin/menus/update">
         <input type="hidden" name="id" value="<?= htmlspecialchars((string) $menu['id'], ENT_QUOTES, 'UTF-8') ?>">
@@ -102,10 +110,10 @@
                 <option value="1" <?= (string) $menu['is_visible'] === '1' ? 'selected' : '' ?>>노출</option>
                 <option value="0" <?= (string) $menu['is_visible'] === '0' ? 'selected' : '' ?>>숨김</option>
             </select>
-            <p>이번 단계에서는 값만 표시합니다. 저장 처리는 다음 단계에서 구현합니다.</p>
+            <p>메뉴 목록 화면에서 노출 또는 숨김 상태를 구분할 때 사용하는 값입니다.</p>
         </div>
 
-        <button type="submit" disabled>수정 저장</button>
+        <button type="submit">수정 저장</button>
     </form>
 
     <p>

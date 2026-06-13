@@ -113,4 +113,44 @@ class Menu
 
         return $menu === false ? null : $menu;
     }
+
+    public static function update(
+        int $id,
+        int $siteId,
+        ?int $parentId,
+        string $name,
+        string $menuType,
+        ?int $targetId,
+        ?string $linkUrl,
+        int $sortOrder,
+        bool $isVisible
+    ): void {
+        $pdo = db();
+
+        $stmt = $pdo->prepare(
+            'UPDATE menus
+             SET
+                site_id = :site_id,
+                parent_id = :parent_id,
+                name = :name,
+                menu_type = :menu_type,
+                target_id = :target_id,
+                link_url = :link_url,
+                sort_order = :sort_order,
+                is_visible = :is_visible
+             WHERE id = :id'
+        );
+
+        $stmt->execute([
+            'id' => $id,
+            'site_id' => $siteId,
+            'parent_id' => $parentId,
+            'name' => $name,
+            'menu_type' => $menuType,
+            'target_id' => $targetId,
+            'link_url' => $linkUrl,
+            'sort_order' => $sortOrder,
+            'is_visible' => $isVisible ? 1 : 0,
+        ]);
+    }
 }
