@@ -114,6 +114,21 @@ class Menu
         return $menu === false ? null : $menu;
     }
 
+    public static function findBySite(int $id, int $siteId): ?array
+    {
+        $menu = self::find($id);
+
+        if ($menu === null) {
+            return null;
+        }
+
+        if ((int) $menu['site_id'] !== $siteId) {
+            return null;
+        }
+
+        return $menu;
+    }
+
     public static function update(
         int $id,
         int $siteId,

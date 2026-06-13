@@ -431,8 +431,8 @@ if ($path === '/admin/menus/update' && $method === 'POST') {
             $errors[] = '상위 메뉴 ID는 1 이상의 숫자로 입력해주세요.';
         } elseif ($parentId === $id) {
             $errors[] = '자기 자신을 상위 메뉴로 지정할 수 없습니다.';
-        } elseif (Menu::find($parentId) === null) {
-            $errors[] = '상위 메뉴를 찾을 수 없습니다.';
+        } elseif (Menu::findBySite($parentId, $siteId) === null) {
+            $errors[] = '상위 메뉴는 현재 선택한 사이트에 속한 메뉴만 입력할 수 있습니다.';
         }
     }
 
@@ -554,6 +554,12 @@ if ($path === '/admin/menus' && $method === 'POST') {
         $parentId = null;
     } else {
         $parentId = (int) $parentId;
+
+        if ($parentId <= 0) {
+            $errors[] = '상위 메뉴 ID는 1 이상의 숫자로 입력해주세요.';
+        } elseif (Menu::findBySite($parentId, $siteId) === null) {
+            $errors[] = '상위 메뉴는 현재 선택한 사이트에 속한 메뉴만 입력할 수 있습니다.';
+        }
     }
 
     if ($targetId === '') {
