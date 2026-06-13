@@ -172,4 +172,20 @@ class Menu
             'is_visible' => $isVisible ? 1 : 0,
         ]);
     }
+
+    public static function setVisibility(int $id, bool $isVisible): void
+    {
+        $pdo = db();
+
+        $stmt = $pdo->prepare(
+            'UPDATE menus
+             SET is_visible = :is_visible
+             WHERE id = :id'
+        );
+
+        $stmt->execute([
+            'id' => $id,
+            'is_visible' => $isVisible ? 1 : 0,
+        ]);
+    }
 }

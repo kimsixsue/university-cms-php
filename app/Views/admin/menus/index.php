@@ -78,6 +78,20 @@
                     <td><?= htmlspecialchars($menu['created_at'], ENT_QUOTES, 'UTF-8') ?></td>
                     <td>
                         <a href="/admin/menus/edit?id=<?= htmlspecialchars((string) $menu['id'], ENT_QUOTES, 'UTF-8') ?>">수정</a>
+
+                        <?php if ((int) $menu['is_visible'] === 1): ?>
+                            <form method="post" action="/admin/menus/visibility" style="display: inline;">
+                                <input type="hidden" name="id" value="<?= htmlspecialchars((string) $menu['id'], ENT_QUOTES, 'UTF-8') ?>">
+                                <input type="hidden" name="is_visible" value="0">
+                                <button type="submit">숨김 처리</button>
+                            </form>
+                        <?php else: ?>
+                            <form method="post" action="/admin/menus/visibility" style="display: inline;">
+                                <input type="hidden" name="id" value="<?= htmlspecialchars((string) $menu['id'], ENT_QUOTES, 'UTF-8') ?>">
+                                <input type="hidden" name="is_visible" value="1">
+                                <button type="submit">노출 처리</button>
+                            </form>
+                        <?php endif; ?>
                     </td>
                 </tr>
             <?php endforeach; ?>

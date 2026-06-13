@@ -530,6 +530,44 @@ if ($path === '/admin/menus/update' && $method === 'POST') {
     exit;
 }
 
+if ($path === '/admin/menus/visibility' && $method === 'POST') {
+    requireAdminRole('super_admin');
+
+    $id = (int) ($_POST['id'] ?? 0);
+    $isVisible = $_POST['is_visible'] ?? '';
+
+    if (!in_array($isVisible, ['0', '1'], true)) {
+        http_response_code(400);
+        echo '노출 여부 값이 올바르지 않습니다.';
+        exit;
+    }
+
+    $menu = Menu::find($id);
+
+    if ($menu === null) {
+        http_response_code(404);
+        echo '메뉴를 찾을 수 없습니다.';
+        exit;
+    }
+
+    $visible = $isVisible === '1';
+
+    Menu::setVisibility($id, $visible);
+
+    $admin = currentAdmin();
+
+    AdminLog::create(
+        $admin !== null ? (int) $admin['id'] : null,
+        $visible ? 'menu_shown' : 'menu_hidden',
+        'menu',
+        $id,
+        $_SERVER['REMOTE_ADDR'] ?? null
+    );
+
+    header('Location: /admin/menus?site_id=' . (int) $menu['site_id']);
+    exit;
+}
+
 if ($path === '/admin/menus' && $method === 'POST') {
     requireAdminRole('super_admin');
 
