@@ -25,6 +25,7 @@
     <ul>
         <li><a href="/admin/sites">사이트 관리</a></li>
         <li><a href="/admin/menus">메뉴 관리</a></li>
+        <li><a href="/admin/admin-logs">관리자 작업 로그</a></li>
     </ul>
 
     <p>

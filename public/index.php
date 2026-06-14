@@ -688,6 +688,15 @@ if ($path === '/admin/menus' && $method === 'GET') {
     exit;
 }
 
+if ($path === '/admin/admin-logs' && $method === 'GET') {
+    requireAdminRole('super_admin');
+
+    $logs = AdminLog::all();
+
+    require __DIR__ . '/../app/Views/admin/admin_logs/index.php';
+    exit;
+}
+
 if ($path === '/admin/dashboard') {
     requireAdminRole('super_admin');
 
