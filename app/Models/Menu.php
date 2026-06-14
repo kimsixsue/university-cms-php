@@ -39,6 +39,63 @@ class Menu
         return $stmt->fetchAll();
     }
 
+    public static function treeBySite(int $siteId): array
+    {
+        $menus = self::allBySite($siteId);
+
+        return self::buildTree($menus);
+    }
+
+    private static function buildTree(array $menus): array
+    {
+        $childrenByParent = [];
+
+        foreach ($menus as $menu) {
+            $parentId = $menu['parent_id'] === null ? 0 : (int) $menu['parent_id'];
+            $childrenByParent[$parentId][] = $menu;
+        }
+
+        $tree = [];
+        $visited = [];
+
+        foreach ($childrenByParent[0] ?? [] as $menu) {
+            self::appendMenuToTree($menu, $childrenByParent, $tree, $visited, 0);
+        }
+
+        foreach ($menus as $menu) {
+            $menuId = (int) $menu['id'];
+
+            if (!isset($visited[$menuId])) {
+                self::appendMenuToTree($menu, $childrenByParent, $tree, $visited, 0);
+            }
+        }
+
+        return $tree;
+    }
+
+    private static function appendMenuToTree(
+        array $menu,
+        array $childrenByParent,
+        array &$tree,
+        array &$visited,
+        int $depth
+    ): void {
+        $menuId = (int) $menu['id'];
+
+        if (isset($visited[$menuId])) {
+            return;
+        }
+
+        $visited[$menuId] = true;
+        $menu['depth'] = $depth;
+
+        $tree[] = $menu;
+
+        foreach ($childrenByParent[$menuId] ?? [] as $childMenu) {
+            self::appendMenuToTree($childMenu, $childrenByParent, $tree, $visited, $depth + 1);
+        }
+    }
+
     public static function create(
         int $siteId,
         ?int $parentId,

@@ -682,7 +682,7 @@ if ($path === '/admin/menus' && $method === 'GET') {
         $selectedSiteId = (int) $sites[0]['id'];
     }
 
-    $menus = $selectedSiteId > 0 ? Menu::allBySite($selectedSiteId) : [];
+    $menus = $selectedSiteId > 0 ? Menu::treeBySite($selectedSiteId) : [];
 
     require __DIR__ . '/../app/Views/admin/menus/index.php';
     exit;

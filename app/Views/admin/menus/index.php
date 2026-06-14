@@ -69,7 +69,12 @@
                             (ID: <?= htmlspecialchars((string) $menu['parent_id'], ENT_QUOTES, 'UTF-8') ?>)
                         <?php endif; ?>
                     </td>
-                    <td><?= htmlspecialchars($menu['name'], ENT_QUOTES, 'UTF-8') ?></td>
+                    <td>
+                        <?php $depth = (int) ($menu['depth'] ?? 0); ?>
+                        <?= str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $depth) ?>
+                        <?= $depth > 0 ? '└ ' : '' ?>
+                        <?= htmlspecialchars($menu['name'], ENT_QUOTES, 'UTF-8') ?>
+                    </td>
                     <td><?= htmlspecialchars($menu['menu_type'], ENT_QUOTES, 'UTF-8') ?></td>
                     <td><?= htmlspecialchars((string) ($menu['target_id'] ?? ''), ENT_QUOTES, 'UTF-8') ?></td>
                     <td><?= htmlspecialchars($menu['link_url'] ?? '', ENT_QUOTES, 'UTF-8') ?></td>
